@@ -23,7 +23,7 @@ jobs:
     # repo for instance.
     # This could be somehow fixed long term by making this action/workflow re-usable and letting the called
     # specify what to run on.
-    runs-on: ${{ github.repository_owner == 'kernel-patches' && 'x86_64' || 'ubuntu-latest' }}
+    runs-on: self-hosted
     outputs:
       build-matrix: ${{ steps.set-matrix-impl.outputs.build_matrix }}
       test-matrix: ${{ steps.set-matrix-impl.outputs.test_matrix }}
@@ -128,7 +128,7 @@ jobs:
   build:
     name: build for ${{ matrix.arch }} with ${{ matrix.toolchain_full }}
     needs: set-matrix
-    runs-on: ${{ matrix.runs_on }}
+    runs-on: self-hosted
     timeout-minutes: 100
     strategy:
       fail-fast: false
@@ -330,7 +330,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.set-matrix.outputs.test-matrix) }}
-    runs-on: ${{ matrix.runs_on }}
+    runs-on: self-hosted
     timeout-minutes: 100
     env:
       KERNEL: ${{ matrix.kernel }}
@@ -370,7 +370,7 @@ jobs:
   veristat:
     name: veristat
     needs: [set-matrix, build]
-    runs-on: ${{ fromJSON(needs.set-matrix.outputs.veristat-runs-on) }}
+    runs-on: self-hosted
     timeout-minutes: 100
     env:
       KERNEL: LATEST
