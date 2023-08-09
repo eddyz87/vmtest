@@ -6,6 +6,7 @@ on:
     branches:
       - bpf_base
       - bpf-next_base
+      - bpf-next
 
 env:
   veristat_arch: x86_64
